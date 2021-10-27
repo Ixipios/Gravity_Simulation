@@ -15,6 +15,10 @@ class Vec:
         self.y = y
 
 
+def vec_sum(vec1, vec2):
+    return Vec(vec1.x+vec2.x, vec1.y+vec2.y)
+
+
 class Point:
     def __init__(self, mass, velocity: Vec, position):
         global points
@@ -36,26 +40,35 @@ def move(m):
     m.draw()
 
 
+def split(m):
+    m1, m2 = Point(2, vec_sum(m.velocity, Vec(2, 0)), m.position), Point(2, vec_sum(m.velocity, Vec(0, 2)), m.position)
+
+
 def interact():
     pass
 
 
-def update():
+def update(split_flag):
     for m in points:
         move(m)
+        if split_flag:
+            pass
 
 
-m1 = Point(2, Vec(18, 0), (-4, 48))
-m2 = Point(2, Vec(5, 3), (-52, -31))
-for i in range(6):
+for i in range(50):
     m0 = Point(2, Vec(randint(-20, 20), randint(-20, 20)), (randint(-100, 100), randint(-100, 100)))
 
 
+j = 0
+
 # simulation_loop
-while True:
+while 1:
     turtle.clear()
-    update()
+    split_flag = j % 15 == 0
+    # split(points[0])
+    update(split_flag)
     turtle.Screen().update()
     time.sleep(refresh_speed)
+    j += 1
 
 turtle.mainloop()
